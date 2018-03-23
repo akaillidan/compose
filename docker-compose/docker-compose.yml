@@ -1,0 +1,25 @@
+version: '2'
+services:
+    nginx:
+        image: nginx:stable
+        ports:
+            - "8080:80"
+        volumes:
+            - ../nginx/config:/etc/nginx/conf.d
+            #- ../nginx/logs:/var/log/nginx
+            - ../www/teamfinding:/var/www/teamfinding
+        links:
+            - php-fpm
+    php-fpm:
+        image: php:7.2-fpm
+        links:
+            - mysql
+        volumes:
+            - ../www/teamfinding:/var/www/teamfinding
+            #- ../php/config:/usr/local/etc/php-fpm.d
+    mysql:
+        image: mysql:5.7
+        volumes:
+            - ../mysql:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: Qwerty123
